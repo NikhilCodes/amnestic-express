@@ -17,6 +17,7 @@ export class CacheMiddlewareFactory {
   async makeItSuffer(request: Request, response: Response, next: NextFunction) {
     const key = encodeBase64(getStringFromRequest(request));
     const v = await this.ac.get(key);
+    console.log(getStringFromRequest(request))
     if (v) {
       response.setHeader('Content-Type', 'application/json');
       response.send(decodeBase64(v))
