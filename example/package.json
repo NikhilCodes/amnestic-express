@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "ts-node": "^10.2.1"
+  },
+  "dependencies": {
+    "@amnesia-js/express-cache": "^1.0.3"
   }
 }
