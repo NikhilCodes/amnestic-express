@@ -5,11 +5,11 @@ const request = require('supertest');
 
 test('Test Express', async () => {
   let acm = new CacheMiddlewareFactory();
-  await acm.connect({})
+  await acm.connect({});
   let app = express();
 
-  app.use(express.json())
-  app.use((req, res, next) => acm.makeItSuffer(req, res, next));
+  app.use(express.json());
+  app.use(acm.getMiddleware({ nfetch: 10 }));
   let server = app.listen(8000, () => {
     console.log('STARTED LISTENING!');
   });

@@ -14,13 +14,17 @@ export class CacheMiddlewareFactory {
     await this.ac.connect({ ...options });
   }
 
-  async makeItSuffer(request: Request, response: Response, next: NextFunction) {
+  getMiddleware(options: { ttl?: string, nfetch?: number }) {
+    return this.makeItSuffer.bind(this, options);
+  }
+
+  async makeItSuffer(options, request: Request, response: Response, next: NextFunction) {
     const key = encodeBase64(getStringFromRequest(request));
     const v = await this.ac.get(key);
-    console.log(getStringFromRequest(request))
+
     if (v) {
       response.setHeader('Content-Type', 'application/json');
-      response.send(decodeBase64(v))
+      response.send(decodeBase64(v));
       return;
     }
 
@@ -33,14 +37,14 @@ export class CacheMiddlewareFactory {
     };
 
     response.end = async (...args) => {
-      const chunk = args[0]
+      const chunk = args[0];
       if (chunk) {
         chunks.push(chunk);
       }
 
       let body = Buffer.concat(chunks).toString('utf-8');
       // Accessing Response body here
-      await this.ac.set(key, encodeBase64(body));
+      await this.ac.set(key, encodeBase64(body), options);
       //
       oldEnd.apply(response, args);
     };
