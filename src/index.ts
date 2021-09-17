@@ -14,8 +14,8 @@ export class CacheMiddlewareFactory {
     await this.ac.connect({ ...options });
   }
 
-  getMiddleware(options: { ttl?: string, nfetch?: number }) {
-    return this.makeItSuffer.bind(this, options);
+  getMiddleware(options: { ttl?: string, nfetch?: number } | null) {
+    return this.makeItSuffer.bind(this, options??{});
   }
 
   async makeItSuffer(options, request: Request, response: Response, next: NextFunction) {

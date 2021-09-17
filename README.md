@@ -5,8 +5,10 @@
 
 Example:
 ```javascript
-let acm = new CacheMiddlewareFactory();
-acm.connect({}) // Connecting to default port and host
+import { CacheMiddlewareFactory } from '@amnesia-js/express-cache';
 
-app.use((req, res, next) => acm.makeItSuffer(req, res, next));  // Attaching middleware
+let acm = new CacheMiddlewareFactory();
+acm.connect({ port: 4224 }) // Connecting to default port and host
+
+app.use(acm.getMiddleware({ nfetch: 2 }));  // Attaching middleware
 ```

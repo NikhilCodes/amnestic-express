@@ -5,3 +5,4 @@ babel.config.js
 coverage/
 src
 **/node_modules/
+example/
